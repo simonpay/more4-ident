@@ -4,48 +4,47 @@
 @import "neat";
 @import "scut";
 
-html {
+html, body {
     height: 100%;
 }
 
 body {
     perspective: 20000px;
-    height: 100%;
 }
 
-.banner {
-    width: 728px;
-    height: 90px;
-}
+// .banner {
+//     width: 728px;
+//     height: 90px;
+// }
 
-.more4-logo-container {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    width: 60px;
-    height: 60px;
-    // background: red;
-    // transform: translateX(-50%);
-    // transform: translateY(-50%);
-}
+// .more4-logo-container {
+//     position: relative;
+//     top: 50%;
+//     left: 50%;
+//     width: 60px;
+//     height: 60px;
+//     // background: red;
+//     // transform: translateX(-50%);
+//     // transform: translateY(-50%);
+// }
 
-.tri {
-    height: 0;
-    width: 0;
-    border-width: 70px;
-    border-style: solid;
-    border-color: transparent;
-    border-top: 0;
-    border-bottom-color: red;
-    /* transform: scaleY(.2); */
-    transform-origin: 0 100%;
-    border-top-right-radius: 10px;
-    transition: 0.3s;
+// .tri {
+//     height: 0;
+//     width: 0;
+//     border-width: 70px;
+//     border-style: solid;
+//     border-color: transparent;
+//     border-top: 0;
+//     border-bottom-color: red;
+//     /* transform: scaleY(.2); */
+//     transform-origin: 0 100%;
+//     border-top-right-radius: 10px;
+//     transition: 0.3s;
 
-    &:hover {
-        transform: scaleY(0);
-    }
-}
+//     &:hover {
+//         transform: scaleY(0);
+//     }
+// }
 
 
 
@@ -56,94 +55,126 @@ body {
     top: 50%;
     left: 50%;
     margin: -200px 0 0 -200px;
-    background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
+    // background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
     background-size: 100%;
     outline: 1px solid red;
     -webkit-transform-style: preserve-3d;
     // transform: rotate3d(1,1,0,60deg);
 }
-.svg-container {
+
+.flip-container {
     position: absolute;
     top: 25%;
     left: 0%;
     width: 25%;
     height: 25%;
-    // -webkit-transform: rotateX(60deg);
-    // outline: 1px solid red;
-    // background: green;
+    // transform: rotate(0deg);
 }
 
-.svg-tri {
+$dur: 1.5s;
+$startDelay: 2;
+$delay: $dur * 0 + $startDelay;
+$delay1: $dur * 0.3 + $startDelay;
+$delay2: $dur * 0.6 + $startDelay;
+
+.flip-card {
     position: absolute;
     width: 96%;
     height: 96%;
     top: 2%;
     left: 2%;
     transform-origin: 50% 50%;
-    // transform: rotate(90deg);
-    // transition: all 1s;
-    // transform: rotate(10deg);
-    // -webkit-backface-visibility: hidden;
-    -webkit-animation: flip 1s linear 1;
-    -webkit-animation-delay: 1s;
-    -webkit-animation-fill-mode: both;
+    -webkit-animation-name: flip, zindex;
+    -webkit-animation-duration: $dur;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
     -webkit-transform-style: preserve-3d;
+    -webkit-animation-delay: $delay;
+    // z-index: 3;
     path {
-        fill: #fa9228;
-    }
-    &.svg-tri--1 {
-        -webkit-animation: flip1 1s linear 1;
-        -webkit-animation-delay: 0.66s;
-        -webkit-animation-fill-mode: both;
-        path {
-            fill: #ff007f;
-        }
-    }
-    &.svg-tri--2 {
-        -webkit-animation: flip2 1s linear 1;
-        -webkit-animation-delay: 0.33s;
-        -webkit-animation-fill-mode: both;
-        path {
-            fill: #ffe100;
-        }
+        fill: #ffe100; // yellow
     }
 }
+    .flip-card--1 {
+        // z-index: 2;
+        -webkit-animation-name: flip, zindex1;
+        -webkit-animation-delay: $delay1;
+        path {
+            fill: #ff007f; // pink
+        }
+    }
+    .flip-card--2 {
+        // z-index: 1;
+        -webkit-animation-name: flip, zindex2;
+        -webkit-animation-delay: $delay2;
+        path {
+            fill: #fa9228; // orange
+        }
+    }
+
 
 
 @-webkit-keyframes flip {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        opacity: 0;
+        // opacity: 0;
     }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        transform: rotate(90deg) rotate3d(1, 1, 0, 357deg);
-    }
-}
-@-webkit-keyframes flip1 {
-    0% {
-        transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        transform: rotate(90deg) rotate3d(1, 1, 0, 359deg);
-    }
-}
-@-webkit-keyframes flip2 {
-    0% {
-        transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
+    25% {
+        // opacity: 1;
     }
     100% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+    }
+}
+@-webkit-keyframes zindex {
+    0% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+        // opacity: 0;
+        z-index: 3;
+    }
+    10% {
+        // opacity: 1;
+    }
+    50% {
+        z-index: 1;
+    }
+    100% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+        z-index: 1;
+    }
+}
+@-webkit-keyframes zindex1 {
+    0% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+        // opacity: 0;
+    }
+    10% {
+        // opacity: 1;
+    }
+    50% {
+        z-index: 2;
+    }
+    100% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+        z-index: 2;
+    }
+}
+@-webkit-keyframes zindex2 {
+    0% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+        // opacity: 0;
+        z-index: 1;
+    }
+    10% {
+        // opacity: 1;
+    }
+    50% {
+        z-index: 3;
+    }
+    100% {
+        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+        z-index: 3;
     }
 }
 

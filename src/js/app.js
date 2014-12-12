@@ -19,19 +19,55 @@ window.onload=function() {
 
 $(function(){
 
-	// get el
-	// clone el in loop and add classes
-	// set color of svg
-	// console.log($tri);
-	var $tri = $(".svg-tri");
-	$tri
+	var $flipContainer = $(".flip-container");
+	$flipContainer
 		.clone()
-		.attr("class", "svg-tri svg-tri--1")
-		.appendTo( ".svg-container" )
+		.appendTo( ".viewport" )
+		.css({
+			"top": "0%",
+			"left": "25%"
+		})
 		.clone()
-		.attr("class", "svg-tri svg-tri--2")
-		.appendTo( ".svg-container" );
-		// .end();
+		.appendTo( ".viewport" )
+		.css({
+			"top"		: "25%",
+			"left"		: "25%",
+			"transform"	: "rotate(-180deg)"
+		})
+		.clone()
+		.appendTo( ".viewport" )
+		.css({
+			"top"		: "50%",
+			"left"		: "50%",
+			"transform"	: "rotate(-180deg)"
+		})
+		.clone()
+		.appendTo( ".viewport" )
+		.css({
+			"top"		: "0%",
+			"left"		: "50%",
+			"transform"	: "rotate(-180deg)"
+		})
+		.clone()
+		.appendTo( ".viewport" )
+		.css({
+			"top"		: "25%",
+			"left"		: "50%",
+			"transform"	: "rotate(-180deg)"
+		});
+
+
+	var $flipCard = $(".flip-card");
+	$flipCard
+		.clone()
+		.attr("class", "flip-card flip-card--1")
+		.prependTo( ".flip-container" )
+		.clone()
+		.attr("class", "flip-card flip-card--2")
+		.prependTo( ".flip-container" );
+
+
+
 
 
 });
