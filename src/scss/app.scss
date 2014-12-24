@@ -55,7 +55,7 @@ body {
     top: 50%;
     left: 50%;
     margin: -200px 0 0 -200px;
-    // background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
+    background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
     background-size: 100%;
     outline: 1px solid red;
     -webkit-transform-style: preserve-3d;
@@ -68,14 +68,48 @@ body {
     left: 0%;
     width: 25%;
     height: 25%;
-    // transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform-style: preserve-3d;
 }
+    @mixin flip-container($class, $left, $top, $rotate:n) {
+        .flip-container--#{$class} {
+            left: $left * 1%; // add % symbol
+            top: $top * 1%; // add % symbol
+            @if $rotate != "n" {
+                transform: rotate(#{$rotate}deg);
+            }
+        }
+    }
+    // 4 rows of animated flip cards
+    // 1st row
+    @include flip-container("2-1", 25, 0);
+    @include flip-container("3-1", 50, 0, -180);
+    // 2nd row
+    @include flip-container("1-2", 0, 25);
+    @include flip-container("2-2", 25, 25, -180);
+    @include flip-container("3-2", 50, 25, -180);
+    // 3rd row
+    @include flip-container("1-3", 0, 50, -180);
+    @include flip-container("2-3", 25, 50, -180);
+    @include flip-container("3-3", 50, 50, -180);
+    // 4th row
+    @include flip-container("4-3", 50, 75, -180);
 
-$dur: 1.5s;
+$dur: 1s;
 $startDelay: 2;
-$delay: $dur * 0 + $startDelay;
-$delay1: $dur * 0.3 + $startDelay;
-$delay2: $dur * 0.6 + $startDelay;
+$delay1: $dur * 0 + $startDelay;
+$delay2: $dur * 0.3 + $startDelay;
+$delay3: $dur * 0.6 + $startDelay;
+$delay4: $dur * 0.9 + $startDelay;
+$delay5: $dur * 1.2 + $startDelay;
+$delay6: $dur * 1.5 + $startDelay;
+$delay7: $dur * 1.8 + $startDelay;
+$delay8: $dur * 2.1 + $startDelay;
+$delay9: $dur * 2.4 + $startDelay;
+$delay10: $dur * 2.7 + $startDelay;
+
+
+
 
 .flip-card {
     position: absolute;
@@ -84,107 +118,166 @@ $delay2: $dur * 0.6 + $startDelay;
     top: 2%;
     left: 2%;
     transform-origin: 50% 50%;
-    -webkit-animation-name: flip, zindex;
+    // -webkit-animation-name: flip, zindex;
     -webkit-animation-duration: $dur;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
     -webkit-transform-style: preserve-3d;
-    -webkit-animation-delay: $delay;
+    // -webkit-animation-delay: $delay1;
     // z-index: 3;
     path {
         fill: #ffe100; // yellow
     }
 }
-    .flip-card--1 {
-        // z-index: 2;
-        -webkit-animation-name: flip, zindex1;
-        -webkit-animation-delay: $delay1;
-        path {
-            fill: #ff007f; // pink
+
+    // set array containing all the delay values
+    $delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $delay9 $delay10;
+
+    @each $current-delay in $delay-list {
+        $i: index($delay-list, $current-delay);
+        .flip-card--#{$i} { 
+            -webkit-animation-name: flip, zindex#{$i};
+            -webkit-animation-delay: $current-delay;
         }
     }
-    .flip-card--2 {
-        // z-index: 1;
-        -webkit-animation-name: flip, zindex2;
-        -webkit-animation-delay: $delay2;
-        path {
-            fill: #fa9228; // orange
+    .flip-card--dont-animate {
+        -webkit-animation-name: none;
+        transform: rotate(-90deg);
+    }
+    
+
+    // custom delays
+    // define class for custom delay
+    .delay-250 {
+        // loop around delay array
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 0.25;
+            }
+        }
+    }
+    .delay-500 {
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 0.5;
+            }
+        }
+    }
+    .delay-750 {
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 0.75;
+            }
+        }
+    }
+    .delay-1000 {
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 1;
+            }
+        }
+    }
+    .delay-1250 {
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 1.25;
+            }
+        }
+    }
+    .delay-1500 {
+        @each $current-delay in $delay-list {
+            $i: index($delay-list, $current-delay);
+            .flip-card--#{$i} { 
+                -webkit-animation-delay: $current-delay + 1.5;
+            }
         }
     }
 
+
+    // svg triangle fill colors
+    .orange path     { fill: #fa9228; }
+    .pink path       { fill: #ff007f; }
+    .light-pink path { fill: #f88eaf; }
+    .dark-pink path  { fill: #b10562; }
+    .yellow path     { fill: #ffe100; }
+    .green path      { fill: #00b538; }
+    .mint-green path { fill: #87cfb4; }
+    .lime path       { fill: #80c93a; }
+    .red path        { fill: #f83237; }
+    .blue path       { fill: #007db6; }
+    .light-blue path { fill: #7db5e2; }
+    .peach path      { fill: #ff7a7f; }
+    .maroon path     { fill: #b10562; }
+    .grey path       { fill: #919583; }
 
 
 @-webkit-keyframes flip {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        // opacity: 0;
-    }
-    25% {
-        // opacity: 1;
     }
     100% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
     }
 }
-@-webkit-keyframes zindex {
-    0% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        // opacity: 0;
-        z-index: 3;
+
+$z-index-list: 10 9 8 7 6 5 4 3 2 1;
+@each $current-delay in $delay-list {
+    $i: index($delay-list, $current-delay);
+    @-webkit-keyframes zindex#{$i} {
+        0% {
+            z-index: nth($z-index-list, $i);
+        }
     }
-    10% {
-        // opacity: 1;
-    }
-    50% {
-        z-index: 1;
-    }
-    100% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
-        z-index: 1;
-    }
+    // $i: index($delay-list, $current-delay);
+    // .flip-card--#{$i} { 
+    //     -webkit-animation-name: flip, zindex#{$i};
+    //     -webkit-animation-delay: $current-delay;
+    // }
 }
-@-webkit-keyframes zindex1 {
-    0% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        // opacity: 0;
-    }
-    10% {
-        // opacity: 1;
-    }
-    50% {
-        z-index: 2;
-    }
-    100% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
-        z-index: 2;
-    }
-}
-@-webkit-keyframes zindex2 {
-    0% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
-        // opacity: 0;
-        z-index: 1;
-    }
-    10% {
-        // opacity: 1;
-    }
-    50% {
-        z-index: 3;
-    }
-    100% {
-        // transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
-        z-index: 3;
-    }
-}
+// @-webkit-keyframes zindex1 {
+//     0% {
+//         z-index: 6;
+//     }
+// }
+// @-webkit-keyframes zindex2 {
+//     0% {
+//         z-index: 5;
+//     }
+// }
+// @-webkit-keyframes zindex3 {
+//     0% {
+//         z-index: 4;
+//     }
+// }
+// @-webkit-keyframes zindex4 {
+//     0% {
+//         z-index: 3;
+//     }
+// }
+// @-webkit-keyframes zindex5 {
+//     0% {
+//         z-index: 2;
+//     }
+// }
+// @-webkit-keyframes zindex6 {
+//     0% {
+//         z-index: 1;
+//     }
+// }
 
 
-.square {
-    display: none;
-    width: 200px;
-    height: 200px;
-    background-color: red;
-    transform-origin: 50% 50%;
-    transform: rotate(0deg) rotate3d(1, 1, 0, 0deg);
-    transition: all .5s;
-}
+// .square {
+//     display: none;
+//     width: 200px;
+//     height: 200px;
+//     background-color: red;
+//     transform-origin: 50% 50%;
+//     transform: rotate(0deg) rotate3d(1, 1, 0, 0deg);
+//     transition: all .5s;
+// }
