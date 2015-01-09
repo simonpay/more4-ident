@@ -4,64 +4,34 @@
 @import "neat";
 @import "scut";
 
+
 html, body {
     height: 100%;
 }
 
 body {
     perspective: 20000px;
+    background-color: #333C41;
 }
 
-// .banner {
-//     width: 728px;
-//     height: 90px;
-// }
-
-// .more4-logo-container {
-//     position: relative;
-//     top: 50%;
-//     left: 50%;
-//     width: 60px;
-//     height: 60px;
-//     // background: red;
-//     // transform: translateX(-50%);
-//     // transform: translateY(-50%);
-// }
-
-// .tri {
-//     height: 0;
-//     width: 0;
-//     border-width: 70px;
-//     border-style: solid;
-//     border-color: transparent;
-//     border-top: 0;
-//     border-bottom-color: red;
-//     /* transform: scaleY(.2); */
-//     transform-origin: 0 100%;
-//     border-top-right-radius: 10px;
-//     transition: 0.3s;
-
-//     &:hover {
-//         transform: scaleY(0);
-//     }
-// }
-
-
+$width: 400px;
+$height: $width;
 
 .viewport {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: $width;
+    height: $height;
     top: 50%;
     left: 50%;
-    margin: -200px 0 0 -200px;
-    background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
-    background-size: 100%;
-    outline: 1px solid red;
-    -webkit-transform-style: preserve-3d;
+    margin: (-$width/2) 0 0 (-$width/2);
+    // background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
+    // outline: 1px solid red;
+    // background-size: 100%;
+    // -webkit-transform-style: preserve-3d;
     // transform: rotate3d(1,1,0,60deg);
 }
 
+// the base container for each set of flip triangles
 .flip-container {
     position: absolute;
     top: 25%;
@@ -71,6 +41,7 @@ body {
     transform: rotate(0deg);
     -webkit-transform-style: preserve-3d;
 }
+    // mixin to position ans rotate each custom container
     @mixin flip-container($class, $left, $top, $rotate:n) {
         .flip-container--#{$class} {
             left: $left * 1%; // add % symbol
@@ -80,6 +51,7 @@ body {
             }
         }
     }
+
     // 4 rows of animated flip cards
     // 1st row
     @include flip-container("2-1", 25, 0);
@@ -92,11 +64,14 @@ body {
     @include flip-container("1-3", 0, 50, -180);
     @include flip-container("2-3", 25, 50, -180);
     @include flip-container("3-3", 50, 50, -180);
+    @include flip-container("4-3", 75, 50, -180);
     // 4th row
-    @include flip-container("4-3", 50, 75, -180);
+    @include flip-container("3-4", 50, 75, -180);
 
-$dur: 1s;
-$startDelay: 2;
+
+// delays
+$dur: 1.00s;
+$startDelay: 0.3;
 $delay1: $dur * 0 + $startDelay;
 $delay2: $dur * 0.3 + $startDelay;
 $delay3: $dur * 0.6 + $startDelay;
@@ -108,115 +83,265 @@ $delay8: $dur * 2.1 + $startDelay;
 $delay9: $dur * 2.4 + $startDelay;
 $delay10: $dur * 2.7 + $startDelay;
 
+// set array containing all the delay values
+$delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $delay9 $delay10;
 
-
+// flip card dimensions
+$flip-card-left: 2.5%;
+$flip-card-top: $flip-card-left;
+$flip-card-width: 100% - $flip-card-top - $flip-card-left;
+$flip-card-height: $flip-card-width;
 
 .flip-card {
+    // display: none;
     position: absolute;
-    width: 96%;
-    height: 96%;
-    top: 2%;
-    left: 2%;
+    width: $flip-card-width;
+    height: $flip-card-height;
+    top: $flip-card-top;
+    left: $flip-card-left;
     transform-origin: 50% 50%;
     // -webkit-animation-name: flip, zindex;
     -webkit-animation-duration: $dur;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
-    -webkit-transform-style: preserve-3d;
-    // -webkit-animation-delay: $delay1;
-    // z-index: 3;
-    path {
-        fill: #ffe100; // yellow
+    // -webkit-animation-play-state: paused;
+    // -webkit-transform-style: preserve-3d; // do i need this??
+    
+    .letter-left,
+    .letter-right {
+        -webkit-animation-duration: $dur;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
+        // -webkit-animation-play-state: paused;
     }
 }
+    
+    // first flip card (all)
+    .flip-card--first { 
+        display: block;
+        -webkit-animation-name: flip-start, zindex0;
+        -webkit-animation-delay: $delay1;
+        // -webkit-animation-play-state: running;
 
-    // set array containing all the delay values
-    $delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $delay9 $delay10;
+        .letter-right {
+            -webkit-animation-name: set-display-right;
+            -webkit-animation-delay: $delay1;
+        }
+        .letter-left {
+            -webkit-animation-name: set-display-left;
+            -webkit-animation-delay: $delay1;
+        }
+    }
+
+    // first flip card (just pos 1 + 3)
+    .flip-card--first-reverse { 
+        display: block;
+        -webkit-animation-name: flip-start-reverse, zindex0;
+        -webkit-animation-delay: $delay1;
+        // -webkit-animation-play-state: running;
+
+        .letter-right {
+            -webkit-animation-name: set-display-right;
+            -webkit-animation-delay: $delay1;
+        }
+        .letter-left {
+            -webkit-animation-name: set-display-left;
+            -webkit-animation-delay: $delay1;
+        }
+    }
 
     @each $current-delay in $delay-list {
         $i: index($delay-list, $current-delay);
         .flip-card--#{$i} { 
             -webkit-animation-name: flip, zindex#{$i};
             -webkit-animation-delay: $current-delay;
+
+            .letter-right {
+                -webkit-animation-name: set-display-right;
+                -webkit-animation-delay: $current-delay;
+            }
+            .letter-left {
+                -webkit-animation-name: set-display-left;
+                -webkit-animation-delay: $current-delay;
+            }
         }
     }
+
+    // the last card that stays in place at the end of the animation
     .flip-card--dont-animate {
-        -webkit-animation-name: none;
-        transform: rotate(-90deg);
+        -webkit-animation-name: rotate-only;
+        .letter-right {
+            -webkit-animation-name: none;
+        }
+        .letter-left {
+            -webkit-animation-name: none;
+            display: none;
+        }
     }
     
 
     // custom delays
     // define class for custom delay
     .delay-250 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 0.25;
+        }
         // loop around delay array
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            { 
                 -webkit-animation-delay: $current-delay + 0.25;
             }
         }
     }
     .delay-500 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 0.5;
+        }
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            {
                 -webkit-animation-delay: $current-delay + 0.5;
             }
         }
     }
     .delay-750 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 0.75;
+        }
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            {
                 -webkit-animation-delay: $current-delay + 0.75;
             }
         }
     }
     .delay-1000 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 1;
+        }
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            {
                 -webkit-animation-delay: $current-delay + 1;
             }
         }
     }
     .delay-1250 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 1.25;
+        }
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            {
                 -webkit-animation-delay: $current-delay + 1.25;
             }
         }
     }
     .delay-1500 {
+        .flip-card--first,
+        .flip-card--first-reverse {
+            -webkit-animation-delay: $delay1 + 1.5;
+        }
         @each $current-delay in $delay-list {
             $i: index($delay-list, $current-delay);
-            .flip-card--#{$i} { 
+            .flip-card--#{$i},
+            .flip-card--#{$i} .letter-right,
+            .flip-card--#{$i} .letter-left,
+            {
                 -webkit-animation-delay: $current-delay + 1.5;
             }
         }
     }
 
 
+    $dusk      : #949483; // grey
+    $ham       : #F47B7B;
+    $plum      : #9F1F5C;
+    $mandarin  : #EF9020;
+    $parsley   : #00AF3E; // green
+    $sky       : #85B7E2; // light blue
+    $navy      : #29245C;
+    $citron    : #FFD616; // yellow
+    $kite      : #E5352B; // red
+    $rose      : #E990AB;
+    $waves     : #0081B4; // mid-blue
+    $aqua      : #96CBB3;
+    $apple     : #91BE3E;
+    $ocean     : #39A6DD;
+    $hibiscus  : #EB0973; // pink
+    $elephant  : #333C41; // dark grey
+    $breeze    : #DDE2E0; // light grey
+
+
     // svg triangle fill colors
-    .orange path     { fill: #fa9228; }
-    .pink path       { fill: #ff007f; }
-    .light-pink path { fill: #f88eaf; }
-    .dark-pink path  { fill: #b10562; }
-    .yellow path     { fill: #ffe100; }
-    .green path      { fill: #00b538; }
-    .mint-green path { fill: #87cfb4; }
-    .lime path       { fill: #80c93a; }
-    .red path        { fill: #f83237; }
-    .blue path       { fill: #007db6; }
-    .light-blue path { fill: #7db5e2; }
-    .peach path      { fill: #ff7a7f; }
-    .maroon path     { fill: #b10562; }
-    .grey path       { fill: #919583; }
+    .dusk      { fill: $dusk; } // grey
+    .ham       { fill: $ham; }
+    .plum      { fill: $plum; }
+    .mandarin  { fill: $mandarin; }
+    .parsley   { fill: $parsley; } // green
+    .sky       { fill: $sky; } // light blue
+    .navy      { fill: $navy; }
+    .citron    { fill: $citron; } // yellow
+    .kite      { fill: $kite; } // red
+    .rose      { fill: $rose; }
+    .waves     { fill: $waves; } // mid-blue
+    .aqua      { fill: $aqua; }
+    .apple     { fill: $apple; }
+    .ocean     { fill: $ocean; }
+    .hibiscus  { fill: $hibiscus; } // pink
+    .elephant  { fill: $elephant; } // dark grey
+    .breeze    { fill: $breeze; } // light grey
 
 
+// the first flip card 
+@-webkit-keyframes flip-start {
+    0% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 270deg);
+    }
+    100% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+    }
+}
+
+// the 2 flip cards that start by animating to the bottom right
+@-webkit-keyframes flip-start-reverse {
+    0% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 270deg);
+        // opacity: 1;
+    }
+    // 99.99% {
+    //     opacity: 1;
+    // }
+    100% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+        // opacity: 0;
+    }
+}
+
+// all the other flip cards
 @-webkit-keyframes flip {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
@@ -226,7 +351,47 @@ $delay10: $dur * 2.7 + $startDelay;
     }
 }
 
-$z-index-list: 10 9 8 7 6 5 4 3 2 1;
+// this is to match the positions of the els 
+// TODO - make this comment better!
+@-webkit-keyframes rotate-only {
+    0% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+    }
+    100% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+    }
+}
+
+// handle opacity of letters on the left side of the triangles 
+@-webkit-keyframes set-display-left {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+    }
+}
+
+// handle opacity of letters on the right side of the triangles 
+@-webkit-keyframes set-display-right {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+$z-index-list: 10 9 8 7 6 5 4 3 2 1 0;
 @each $current-delay in $delay-list {
     $i: index($delay-list, $current-delay);
     @-webkit-keyframes zindex#{$i} {
@@ -234,50 +399,4 @@ $z-index-list: 10 9 8 7 6 5 4 3 2 1;
             z-index: nth($z-index-list, $i);
         }
     }
-    // $i: index($delay-list, $current-delay);
-    // .flip-card--#{$i} { 
-    //     -webkit-animation-name: flip, zindex#{$i};
-    //     -webkit-animation-delay: $current-delay;
-    // }
 }
-// @-webkit-keyframes zindex1 {
-//     0% {
-//         z-index: 6;
-//     }
-// }
-// @-webkit-keyframes zindex2 {
-//     0% {
-//         z-index: 5;
-//     }
-// }
-// @-webkit-keyframes zindex3 {
-//     0% {
-//         z-index: 4;
-//     }
-// }
-// @-webkit-keyframes zindex4 {
-//     0% {
-//         z-index: 3;
-//     }
-// }
-// @-webkit-keyframes zindex5 {
-//     0% {
-//         z-index: 2;
-//     }
-// }
-// @-webkit-keyframes zindex6 {
-//     0% {
-//         z-index: 1;
-//     }
-// }
-
-
-// .square {
-//     display: none;
-//     width: 200px;
-//     height: 200px;
-//     background-color: red;
-//     transform-origin: 50% 50%;
-//     transform: rotate(0deg) rotate3d(1, 1, 0, 0deg);
-//     transition: all .5s;
-// }
