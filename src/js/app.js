@@ -30,7 +30,8 @@ $(function(){
                 delay: "500", 
                 flipCards: [
                     {
-                        color: "ham"
+                        // color: "ham"
+                        color: "plum"
                     },
                     {
                         color: "aqua"
@@ -42,7 +43,7 @@ $(function(){
                         color: "ham"
                     },
                     {
-                        color: "plum flip-card--dont-animate",
+                        color: "plum",
                         dontAnimate: true
                     },
                 ]
@@ -101,7 +102,8 @@ $(function(){
                 delay: "1000", 
                 flipCards: [
                     {
-                        color: "mandarin"
+                        // color: "mandarin"
+                        color: "citron"
                     },
                     {
                         color: "kite"
@@ -148,11 +150,13 @@ $(function(){
             { 
                 index: "7", 
                 positionID: "2-3", 
-                delay: "1250", 
+                // delay: "1250", 
+                delay: "500", 
                 letter: "O", 
                 flipCards: [
                     {
-                        color: "apple"
+                        // color: "apple"
+                        color: "aqua"
                     },
                     {
                         color: "dusk"
@@ -176,7 +180,8 @@ $(function(){
                 letter: "R", 
                 flipCards: [
                     {
-                        color: "citron"
+                        // color: "citron"
+                        color: "ocean"
                     },
                     {
                         color: "apple"
@@ -200,22 +205,22 @@ $(function(){
                 letter: "E", 
                 flipCards: [
                     {
-                        color: "elephant"
+                        color: "match-background"
                     },
                     {
-                        color: "elephant"
+                        color: "match-background"
                     },
                     {
-                        color: "elephant"
+                        color: "match-background"
                     },
                     {
-                        color: "elephant"
+                        color: "match-background"
                     },
                     {
-                        color: "elephant"
+                        color: "match-background"
                     },
                     {
-                        color: "elephant",
+                        color: "match-background",
                         dontAnimate: true
                     },
                 ]
@@ -246,48 +251,17 @@ $(function(){
 
 
     var removeLetters = function () {
-        // console.log($(this).parent().parent().hasClass( "delay-250" ));
 
         var $flipContainer = $(this).parent().parent();
 
         // if parent flipcard el does NOT have class of "hasLetter", remove letter svg/polygon etc
         if(!$flipContainer.hasClass( "hasLetter" )) {
             $(this).remove();
-        }else{
-            // var letter = $flipContainer.attr("class");
-            if($flipContainer.hasClass( "hasLetter--M" )) {
-
-                // console.log($flipContainer.find(".letter-left--letter-o"));
-
-                // remove O, R, E
-                // console.log($flipContainer.find("letter-left--letter-o"));
-                // console.log($(this).attr("class"));
-                // console.log($flipContainer);
-
-                // if($flipContainer.find(".letter-left--letter-o")) {
-                if($(this).hasClass("letter-left--letter-o")) {
-                    // console.log($flipContainer.find(".letter-left--letter-o"));
-                    // console.log("GO REMOVE");
-                    // $(this).remove();
-                }
-
-                // if $(this) (the current letter svg path) has a class of "letter-left--letter-o", remove $(this)
-                if ($(this).hasClass("letter-left--letter-o")) {
-                    // console.log($(this).attr("class"));
-                    // $(this).remove();
-                }
-                // $flipContainer.find("letter-left--letter-o, letter-right--letter-o, letter-left--letter-r, letter-right--letter-r, letter-left--letter-e, letter-right--letter-e")
-                //     .remove();
-            }
         }
-        
-
-
 
         // remove triangle svg from E flip-card
         // not used as we ned the triangle to be there to create the visual animation flip of the letter E
         if($flipContainer.hasClass( "flip-container--4-3" )) {
-            // $(this).remove();
             if($flipContainer.find(".triangle")){
                 // console.log("has triangle");
                 // $flipContainer.find(".triangle").remove();
@@ -316,23 +290,43 @@ $(function(){
 
             if (aryFlipContainers[i].flipCards) {
 
-                // var flipCardFirstClass;
-                // if (i===0 || i===2) {
-                //     flipCardFirstClass = "flip-card--first-reverse";
-                // }else{
-                //     flipCardFirstClass = "flip-card--first";
-                // }
+                // first part
+                // clone a single flip-card for the first part of the flip 
+                if (i!==0 && i!==2 && i!==9) {
+                    $flipCard
+                        .clone()
+                        .appendTo( ".flip-container--" + aryFlipContainers[i].positionID )
+                        .attr("class", "flip-card flip-card--first")
+                            .find(".triangle")
+                            .attr("class", "triangle " + aryFlipContainers[i].flipCards[0].color)
+                            .end()
+                                .find(".letter-left, .letter-right")
+                                .each(removeLetters);
+                }
 
-                // clone a single flip-card for the first part of the flip
-                // $flipCard
-                //     .clone()
-                //     .appendTo( ".flip-container--" + aryFlipContainers[i].positionID )
-                //     .attr("class", "flip-card " + flipCardFirstClass + " " + aryFlipContainers[i].flipCards[0].color)
-                //     .find(".letter-left, .letter-right")
-                //     .each(removeLetters);
+                // second part
+                // determine the correct color to use
+                var numColorFromEndOfArray;
+                if (i===0 || i===2 || i===9) {
+                    numColorFromEndOfArray = 1;
+                }else{
+                    numColorFromEndOfArray = 2;
+                }
+
+                // clone a single flip-card for the second part of the flip (the end of this animation fires off the main flips)
+                // console.log(aryFlipContainers[i].flipCards[aryFlipContainers[i].flipCards.length - numColorFromEndOfArray].color);
+                $flipCard
+                    .clone()
+                    .appendTo( ".flip-container--" + aryFlipContainers[i].positionID )
+                    .attr("class", "flip-card flip-card--second")
+                        .find(".triangle")
+                        .attr("class", "triangle " + aryFlipContainers[i].flipCards[aryFlipContainers[i].flipCards.length - numColorFromEndOfArray].color)
+                        .end()
+                            .find(".letter-left, .letter-right")
+                            .each(removeLetters);
+
 
                 for (var j = 0; j < aryFlipContainers[i].flipCards.length; j++) {
-
 
                     var dontAnimateClass;
                     if (aryFlipContainers[i].flipCards[j].dontAnimate) {
@@ -340,12 +334,19 @@ $(function(){
                     }else{
                         dontAnimateClass = "";
                     }
+
+                    var halfFlipClass;
+                    if (i===0 || i===2 || i===9) {
+                        halfFlipClass = " flip-card--half-flip";
+                    }else{
+                        halfFlipClass = "";
+                    }
+
                     // now clone the rest of the flip-cards
                     $flipCard
                         .clone()
                         .appendTo( ".flip-container--" + aryFlipContainers[i].positionID )
-                        // .attr("class", "flip-card flip-card--" + (j+1) + " " + aryFlipContainers[i].flipCards[j].color)
-                        .attr("class", "flip-card flip-card--" + (j+1) + dontAnimateClass)
+                        .attr("class", "flip-card flip-card--" + (j+1) + dontAnimateClass + halfFlipClass)
                             .find(".triangle")
                             .attr("class", "triangle " + aryFlipContainers[i].flipCards[j].color)
                             .end()
@@ -353,20 +354,21 @@ $(function(){
                                 .each(removeLetters);
                 }
             }
+            // remove the original flip card
             $flipCard.remove();
     }
-    
+    // remove the original flip container
     $flipContainer.remove();
 
-    var selectorString = "",
-        word = "MORE";
 
+    var selectorString = "";
+
+    // TODO - make this dynamic using a loop somehow - see below start
+    // var word = "MORE";
     // for (var k = 0; k < word.length; k++) {
     //     selectorString += ".hasLetter--" + word.substring(k, k+1) + " .letter-left--letter-o, .hasLetter--" + word.substring(k, k+1) + " .letter-right--letter-o, ";
     // }
     // console.log("selectorString = " + selectorString);
-
-    // TODO - make this dynamic using a loop
     // M
     selectorString += ".hasLetter--M .letter-left--letter-o, .hasLetter--M .letter-right--letter-o, ";
     selectorString += ".hasLetter--M .letter-left--letter-r, .hasLetter--M .letter-right--letter-r, ";
@@ -385,25 +387,21 @@ $(function(){
     selectorString += ".hasLetter--E .letter-left--letter-r, .hasLetter--E .letter-right--letter-r";
     $(selectorString).remove();
 
-    // setTimeout(function(){
-    //  $(".flip-card").show();
-    // }, 2000);
 
-
-    $(".flip-card--first-reverse").bind('oanimationend animationend webkitAnimationEnd', function() { 
+    $(".flip-card--second").bind('oanimationend animationend webkitAnimationEnd', function() { 
         // console.log("animation ended");
-        // console.log(this);
-        // console.log($(this).parent().find(".flip-card:not(.flip-card--first-reverse)"));
+        // console.log($(this).attr("class"));
+
         $(this)
             .parent()
                 .find(".flip-card")
-                    // .show()
-                    // .parent()
-                    // .find(".flip-card--first-reverse")
-                            // .hide()
-                            // .css("-webkit-animation-play-state", "running")
-                            // .find(".letter-right")
-                            //     .css("-webkit-animation-play-state", "running")
+                    .show()
+                        .parent()
+                        .find(".flip-card--second")
+                        .end()
+                            .parent()
+                            .find(".flip-card")
+                            .css("-webkit-animation-play-state", "running")
                             ;
 
     });
@@ -411,11 +409,19 @@ $(function(){
     $(".flip-card--first").bind('oanimationend animationend webkitAnimationEnd', function() { 
         $(this)
             .parent()
-                .find(".flip-card:not(.flip-card--first)")
-                    // .show()
-                    // .find(".letter-right")
-                    //     .css("-webkit-animation-play-state", "running")
-                        ;
+                .find(".flip-card")
+                    .show()
+                        .parent()
+                        .find(".flip-card--first")
+                        .remove()
+                        .end()
+                            .parent()
+                            // this is targetting all flip card letters inc the ones in the second flip which we dnt want to target
+                            // TODO - find a way to exclude the second flip letters 
+                            // .find(".flip-card .letter-left:not(.flip-card--second .letter-left), .flip-card .letter-right:not(.flip-card--second .letter-right))")
+                            .find(".flip-card--1 .letter-left, .flip-card--1 .letter-right, .flip-card--2 .letter-left, .flip-card--2 .letter-right, .flip-card--3 .letter-left, .flip-card--3 .letter-right, .flip-card--4 .letter-left, .flip-card--4 .letter-right, .flip-card--5 .letter-left, .flip-card--5 .letter-right, .flip-card--6 .letter-left, .flip-card--6 .letter-right, .flip-card--7 .letter-left, .flip-card--7 .letter-right")
+                            .css("-webkit-animation-play-state", "running")
+                            ;
 
     });
 

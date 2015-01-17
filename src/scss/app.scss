@@ -4,6 +4,72 @@
 @import "neat";
 @import "scut";
 
+// vars
+$theme: "light";
+
+// view port
+$viewport-width: 400px;
+$viewport-height: $viewport-width;
+
+// colors
+$dusk               : #949483; // grey
+$ham                : #F47B7B;
+$plum               : #9F1F5C;
+$mandarin           : #EF9020;
+$parsley            : #00AF3E; // green
+$sky                : #85B7E2; // light blue
+$navy               : #29245C;
+$citron             : #FFD616; // yellow
+$kite               : #E5352B; // red
+$rose               : #E990AB;
+$waves              : #0081B4; // mid-blue
+$aqua               : #96CBB3;
+$apple              : #91BE3E;
+$ocean              : #39A6DD;
+$hibiscus           : #EB0973; // pink
+$elephant           : #333C41; // dark grey
+$breeze             : #DDE2E0; // light grey
+
+// background
+$background-color: "";
+@if $theme == "dark" {
+    $background-color:  $elephant;
+} @else {
+    $background-color:  $breeze;
+}
+$match-background:      $background-color;
+$text-color:            $background-color;
+
+// delays
+$dur: 1.00s;
+$startDelay: 0.3;
+$delay1: $dur * 0 + $startDelay;
+$delay2: $dur * 0.3 + $startDelay;
+$delay3: $dur * 0.6 + $startDelay;
+$delay4: $dur * 0.9 + $startDelay;
+$delay5: $dur * 1.2 + $startDelay;
+$delay6: $dur * 1.5 + $startDelay;
+$delay7: $dur * 1.8 + $startDelay;
+$delay8: $dur * 2.1 + $startDelay;
+$delay9: $dur * 2.4 + $startDelay;
+$delay10: $dur * 2.7 + $startDelay;
+$delay11: $dur * 3.0 + $startDelay;
+
+// set array containing all the delay values
+$delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $delay9 $delay10 $delay11;
+
+
+// flip card dimensions
+$flip-card-left: 2.5%;
+@if $viewport-width > 200px {
+    $flip-card-left: 2.5%;
+} @else {
+    $flip-card-left: 4%;
+}
+
+$flip-card-top: $flip-card-left;
+$flip-card-width: 100% - $flip-card-top - $flip-card-left;
+$flip-card-height: $flip-card-width;
 
 html, body {
     height: 100%;
@@ -11,21 +77,21 @@ html, body {
 
 body {
     perspective: 20000px;
-    background-color: #333C41;
+    // perspective: 500px;
+    background-color: $background-color;
 }
 
-$width: 400px;
-$height: $width;
+
+
 
 .viewport {
     position: absolute;
-    width: $width;
-    height: $height;
+    width: $viewport-width;
+    height: $viewport-height;
     top: 50%;
     left: 50%;
-    margin: (-$width/2) 0 0 (-$width/2);
+    margin: (-$viewport-width/2) 0 0 (-$viewport-width/2);
     // background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
-    // outline: 1px solid red;
     // background-size: 100%;
     // -webkit-transform-style: preserve-3d;
     // transform: rotate3d(1,1,0,60deg);
@@ -38,7 +104,7 @@ $height: $width;
     left: 0%;
     width: 25%;
     height: 25%;
-    transform: rotate(0deg);
+    // transform: rotate(0deg);
     -webkit-transform-style: preserve-3d;
 }
     // mixin to position ans rotate each custom container
@@ -69,31 +135,8 @@ $height: $width;
     @include flip-container("3-4", 50, 75, -180);
 
 
-// delays
-$dur: 1.00s;
-$startDelay: 0.3;
-$delay1: $dur * 0 + $startDelay;
-$delay2: $dur * 0.3 + $startDelay;
-$delay3: $dur * 0.6 + $startDelay;
-$delay4: $dur * 0.9 + $startDelay;
-$delay5: $dur * 1.2 + $startDelay;
-$delay6: $dur * 1.5 + $startDelay;
-$delay7: $dur * 1.8 + $startDelay;
-$delay8: $dur * 2.1 + $startDelay;
-$delay9: $dur * 2.4 + $startDelay;
-$delay10: $dur * 2.7 + $startDelay;
-
-// set array containing all the delay values
-$delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $delay9 $delay10;
-
-// flip card dimensions
-$flip-card-left: 2.5%;
-$flip-card-top: $flip-card-left;
-$flip-card-width: 100% - $flip-card-top - $flip-card-left;
-$flip-card-height: $flip-card-width;
-
 .flip-card {
-    // display: none;
+    display: none;
     position: absolute;
     width: $flip-card-width;
     height: $flip-card-height;
@@ -105,7 +148,7 @@ $flip-card-height: $flip-card-width;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
-    // -webkit-animation-play-state: paused;
+    -webkit-animation-play-state: paused;
     // -webkit-transform-style: preserve-3d; // do i need this??
     
     .letter-left,
@@ -114,7 +157,7 @@ $flip-card-height: $flip-card-width;
         -webkit-animation-timing-function: linear;
         -webkit-animation-iteration-count: 1;
         -webkit-animation-fill-mode: both; // position the el to match the start and end position of the animation
-        // -webkit-animation-play-state: paused;
+        -webkit-animation-play-state: paused;
     }
 }
     
@@ -123,7 +166,7 @@ $flip-card-height: $flip-card-width;
         display: block;
         -webkit-animation-name: flip-start, zindex0;
         -webkit-animation-delay: $delay1;
-        // -webkit-animation-play-state: running;
+        -webkit-animation-play-state: running;
 
         .letter-right {
             -webkit-animation-name: set-display-right;
@@ -135,22 +178,23 @@ $flip-card-height: $flip-card-width;
         }
     }
 
-    // first flip card (just pos 1 + 3)
-    .flip-card--first-reverse { 
+    // second flip card (all)
+    .flip-card--second { 
         display: block;
-        -webkit-animation-name: flip-start-reverse, zindex0;
+        -webkit-animation-name: flip-start-second, zindex0;
         -webkit-animation-delay: $delay1;
-        // -webkit-animation-play-state: running;
+        -webkit-animation-play-state: running;
 
         .letter-right {
-            -webkit-animation-name: set-display-right;
+            -webkit-animation-name: set-display-right-second-flip;
             -webkit-animation-delay: $delay1;
         }
         .letter-left {
-            -webkit-animation-name: set-display-left;
+            -webkit-animation-name: set-display-left-second-flip;
             -webkit-animation-delay: $delay1;
         }
     }
+
 
     @each $current-delay in $delay-list {
         $i: index($delay-list, $current-delay);
@@ -166,6 +210,14 @@ $flip-card-height: $flip-card-width;
                 -webkit-animation-name: set-display-left;
                 -webkit-animation-delay: $current-delay;
             }
+
+            // these are the half triangles positions 1, 3 & 9
+            &.flip-card--half-flip { 
+                display: block;
+                -webkit-animation-name: flip-half, zindex#{$i};
+                -webkit-animation-duration: $dur / 2; // divide the duration by 2 as it only covers 50% of the degrees of rotation
+            }
+
         }
     }
 
@@ -186,7 +238,8 @@ $flip-card-height: $flip-card-width;
     // define class for custom delay
     .delay-250 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 0.25;
         }
         // loop around delay array
@@ -202,7 +255,8 @@ $flip-card-height: $flip-card-width;
     }
     .delay-500 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 0.5;
         }
         @each $current-delay in $delay-list {
@@ -217,7 +271,8 @@ $flip-card-height: $flip-card-width;
     }
     .delay-750 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 0.75;
         }
         @each $current-delay in $delay-list {
@@ -232,7 +287,8 @@ $flip-card-height: $flip-card-width;
     }
     .delay-1000 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 1;
         }
         @each $current-delay in $delay-list {
@@ -247,7 +303,8 @@ $flip-card-height: $flip-card-width;
     }
     .delay-1250 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 1.25;
         }
         @each $current-delay in $delay-list {
@@ -262,7 +319,8 @@ $flip-card-height: $flip-card-width;
     }
     .delay-1500 {
         .flip-card--first,
-        .flip-card--first-reverse {
+        .flip-card--second,
+        {
             -webkit-animation-delay: $delay1 + 1.5;
         }
         @each $current-delay in $delay-list {
@@ -277,67 +335,54 @@ $flip-card-height: $flip-card-width;
     }
 
 
-    $dusk      : #949483; // grey
-    $ham       : #F47B7B;
-    $plum      : #9F1F5C;
-    $mandarin  : #EF9020;
-    $parsley   : #00AF3E; // green
-    $sky       : #85B7E2; // light blue
-    $navy      : #29245C;
-    $citron    : #FFD616; // yellow
-    $kite      : #E5352B; // red
-    $rose      : #E990AB;
-    $waves     : #0081B4; // mid-blue
-    $aqua      : #96CBB3;
-    $apple     : #91BE3E;
-    $ocean     : #39A6DD;
-    $hibiscus  : #EB0973; // pink
-    $elephant  : #333C41; // dark grey
-    $breeze    : #DDE2E0; // light grey
 
-
-    // svg triangle fill colors
-    .dusk      { fill: $dusk; } // grey
-    .ham       { fill: $ham; }
-    .plum      { fill: $plum; }
-    .mandarin  { fill: $mandarin; }
-    .parsley   { fill: $parsley; } // green
-    .sky       { fill: $sky; } // light blue
-    .navy      { fill: $navy; }
-    .citron    { fill: $citron; } // yellow
-    .kite      { fill: $kite; } // red
-    .rose      { fill: $rose; }
-    .waves     { fill: $waves; } // mid-blue
-    .aqua      { fill: $aqua; }
-    .apple     { fill: $apple; }
-    .ocean     { fill: $ocean; }
-    .hibiscus  { fill: $hibiscus; } // pink
-    .elephant  { fill: $elephant; } // dark grey
-    .breeze    { fill: $breeze; } // light grey
+    // colors
+    .dusk               { fill: $dusk; } // grey
+    .ham                { fill: $ham; }
+    .plum               { fill: $plum; }
+    .mandarin           { fill: $mandarin; }
+    .parsley            { fill: $parsley; } // green
+    .sky                { fill: $sky; } // light blue
+    .navy               { fill: $navy; }
+    .citron             { fill: $citron; } // yellow
+    .kite               { fill: $kite; } // red
+    .rose               { fill: $rose; }
+    .waves              { fill: $waves; } // mid-blue
+    .aqua               { fill: $aqua; }
+    .apple              { fill: $apple; }
+    .ocean              { fill: $ocean; }
+    .hibiscus           { fill: $hibiscus; } // pink
+    .elephant           { fill: $elephant; } // dark grey
+    .breeze             { fill: $breeze; } // light grey
+    .match-background   { fill: $match-background; } // match the bg color of background for flip containg the E
+    .text-color         { fill: $text-color; } // the color of all letters except the E
 
 
 // the first flip card 
 @-webkit-keyframes flip-start {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 270deg);
+        opacity: 0;
+    }
+    1% {
+        opacity: 1;
     }
     100% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
     }
 }
 
-// the 2 flip cards that start by animating to the bottom right
-@-webkit-keyframes flip-start-reverse {
+// the second flip card 
+@-webkit-keyframes flip-start-second {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 270deg);
-        // opacity: 1;
+        opacity: 0;
     }
-    // 99.99% {
-    //     opacity: 1;
-    // }
+    1% {
+        opacity: 1;
+    }
     100% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
-        // opacity: 0;
     }
 }
 
@@ -345,6 +390,20 @@ $flip-card-height: $flip-card-width;
 @-webkit-keyframes flip {
     0% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 180deg);
+    }
+    100% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
+    }
+}
+
+// the flips that go half way (pos 1, 3 & 9)
+@-webkit-keyframes flip-half {
+    0% {
+        transform: rotate(90deg) rotate3d(1, 1, 0, 270deg);
+        opacity: 0;
+    }
+    1% {
+        opacity: 1;
     }
     100% {
         transform: rotate(90deg) rotate3d(1, 1, 0, 360deg);
@@ -391,7 +450,37 @@ $flip-card-height: $flip-card-width;
     }
 }
 
-$z-index-list: 10 9 8 7 6 5 4 3 2 1 0;
+// animation for opacity of letters on second flip card ONLY
+// handle opacity of letters on the left side of the triangles 
+@-webkit-keyframes set-display-left-second-flip {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+// handle opacity of letters on the right side of the triangles 
+@-webkit-keyframes set-display-right-second-flip {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+    }
+}
+
+$z-index-list: 11 10 9 8 7 6 5 4 3 2 1;
 @each $current-delay in $delay-list {
     $i: index($delay-list, $current-delay);
     @-webkit-keyframes zindex#{$i} {
