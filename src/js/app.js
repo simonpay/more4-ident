@@ -27,7 +27,7 @@ $(function(){
             { 
                 index: "2", 
                 positionID: "3-1", 
-                delay: "500", 
+                delay: "250", 
                 flipCards: [
                     {
                         // color: "ham"
@@ -73,7 +73,7 @@ $(function(){
             { 
                 index: "4", 
                 positionID: "2-2", 
-                delay: "750", 
+                delay: "500", 
                 flipCards: [
                     {
                         color: "sky"
@@ -99,7 +99,7 @@ $(function(){
             { 
                 index: "5", 
                 positionID: "3-2", 
-                delay: "1000", 
+                delay: "250", 
                 flipCards: [
                     {
                         // color: "mandarin"
@@ -126,7 +126,7 @@ $(function(){
             { 
                 index: "6", 
                 positionID: "1-3", 
-                delay: "250", 
+                delay: "750", 
                 letter: "M", 
                 flipCards: [
                     {
@@ -150,8 +150,7 @@ $(function(){
             { 
                 index: "7", 
                 positionID: "2-3", 
-                // delay: "1250", 
-                delay: "500", 
+                delay: "250", 
                 letter: "O", 
                 flipCards: [
                     {
@@ -176,7 +175,7 @@ $(function(){
             { 
                 index: "8", 
                 positionID: "3-3", 
-                delay: "750", 
+                // delay: "750", 
                 letter: "R", 
                 flipCards: [
                     {
@@ -201,7 +200,7 @@ $(function(){
             { 
                 index: "9", 
                 positionID: "4-3", 
-                delay: "250", 
+                delay: "500", 
                 letter: "E", 
                 flipCards: [
                     {

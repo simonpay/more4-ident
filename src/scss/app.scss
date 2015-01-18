@@ -5,10 +5,10 @@
 @import "scut";
 
 // vars
-$theme: "light";
+$theme: "dark";
 
 // view port
-$viewport-width: 400px;
+$viewport-width: 300px;
 $viewport-height: $viewport-width;
 
 // colors
@@ -61,7 +61,7 @@ $delay-list: $delay1 $delay2 $delay3 $delay4 $delay5 $delay6 $delay7 $delay8 $de
 
 // flip card dimensions
 $flip-card-left: 2.5%;
-@if $viewport-width > 200px {
+@if $viewport-width >= 200px {
     $flip-card-left: 2.5%;
 } @else {
     $flip-card-left: 4%;
