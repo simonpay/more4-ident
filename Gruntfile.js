@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+    var autoprefixer = require('autoprefixer-core');
+    
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         // Concatanation of JS
@@ -169,6 +171,14 @@ module.exports = function(grunt) {
                 src: ['*.html'],
                 dest: '<%= pkg.dest_paths.assets %>'
             }
+        },
+        postcss: {
+            options: {
+                processors: [
+                    autoprefixer({ browsers: ['last 2 version'] }).postcss
+                ]
+            },
+            dist: { src: '<%= pkg.dest_paths.css %>/*' }
         }
     });
 
@@ -189,6 +199,8 @@ module.exports = function(grunt) {
     
     grunt.loadNpmTasks('grunt-docco');
     grunt.loadNpmTasks('grunt-contrib-connect');
+
+    grunt.loadNpmTasks('grunt-postcss');
 
     grunt.registerTask('build', ['assemble', 'jshint', 'concat', 'uglify:dev', 'compass', 'copy']);
     grunt.registerTask('dist', ['clean', 'assemble', 'prettify', 'jshint', 'concat', 'uglify', 'compass', 'cssmin', 'copy']);

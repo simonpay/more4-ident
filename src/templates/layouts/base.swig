@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	{% block head %}
-	<link rel="stylesheet" href="/css/app.css" />
+	<link rel="stylesheet" href="css/app.css" />
 	{% endblock %}
 
-    <script src="/js/modernizr.min.js"></script>
+    <script src="js/modernizr.min.js"></script>
 
 </head>
 
