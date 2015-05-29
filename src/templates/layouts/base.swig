@@ -7,6 +7,7 @@
     <meta name="description" content="{% block meta-description %}{% endblock %}">
     <meta name="keywords" content="{% block meta-keywords %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" href="img/favicon.ico">
 
 	{% block head %}
 	<link rel="stylesheet" href="css/app.css" />

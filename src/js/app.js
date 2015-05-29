@@ -104,6 +104,9 @@
                     delay: "250", 
                     flipCards: [
                         {
+                            color: "plum"
+                        },
+                        {
                             // color: "mandarin"
                             color: "citron"
                         },
@@ -330,6 +333,7 @@
                                 .clone()
                                 .appendTo( ".flip-container--" + buildFlipCards.aryFlipContainers[i].positionID )
                                 .attr("class", "flip-card flip-card--" + (j+1) + dontAnimateClass + halfFlipClass)
+                                // .data( "index", j+1 )
                                     .find(".triangle")
                                     .attr("class", "triangle " + buildFlipCards.aryFlipContainers[i].flipCards[j].color)
                                     .end()
@@ -343,6 +347,7 @@
             // remove the original flip container
             buildFlipCards.$flipContainer.remove();
             buildFlipCards.bindOnAnimationEnd();
+            // buildFlipCards.bindOnAnimationEnd_standard_flip();
             buildFlipCards.removeUnwantedLetters();
         },
 
@@ -394,8 +399,31 @@
             $(selectorString).remove();
         },
 
+        bindOnAnimationEnd_standard_flip: function() {
+            $(".flip-card")
+                .not( ".flip-card--first" )
+                .not( ".flip-card--second" )
+                .on('oanimationend animationend webkitAnimationEnd', function() { 
+                    // console.log("animation ended");
+
+                    var _index = $(this).data( "index" );
+
+                    // console.log( _index );
+
+                    // console.log( $(this).closest( ".flip-container" ).find( ".flip-card--" + _index - 1 ) );
+
+                    // $(this)
+                    //             .css("z-index", -(_index) )
+                        // .closest( ".flip-container" )
+                        //     .find( ".flip-card--" + (_index) )
+                        //         .css("z-index", -(_index) )
+                                // ;
+                                // .remove();
+            });
+        },
+
         bindOnAnimationEnd: function() {
-            $(".flip-card--second").bind('oanimationend animationend webkitAnimationEnd', function() { 
+            $(".flip-card--second").on('oanimationend animationend webkitAnimationEnd', function() { 
                 // console.log("animation ended");
                 // console.log($(this).attr("class"));
 
@@ -414,7 +442,7 @@
 
             });
 
-            $(".flip-card--first").bind('oanimationend animationend webkitAnimationEnd', function() { 
+            $(".flip-card--first").on('oanimationend animationend webkitAnimationEnd', function() { 
                 $(this)
                     .parent()
                         .find(".flip-card")

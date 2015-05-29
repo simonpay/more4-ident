@@ -43,6 +43,7 @@ $text-color:            $background-color;
 
 // delays
 $dur: 1.00s;
+// $dur: 3.00s;
 $startDelay: 0.3;
 $selayIncrement: 0.3;
 $delay1: $dur * ((1 * $selayIncrement) - $selayIncrement) + $startDelay; // (1 * $selayIncrement) - $selayIncrement
@@ -97,7 +98,7 @@ body {
     // background: url("../img/2000px-More4_logo.svg.png") 0 0 no-repeat;
     // background-size: 100%;
     @include transform-style(preserve-3d);
-    // @include transform(rotate3d(1,1,0,180deg)); // this flips the whole thing and shows the reverse -
+    // @include transform( rotate3d( 1, 1, 0, 120deg ) ); // this flips the whole thing and shows the reverse -
         // it illustates that the animations work in FF but that the rotation direction is wrong due to a known bug in FF  
 
 }
@@ -383,7 +384,7 @@ body {
 // the second flip card 
 @include keyframes(flip-start-second) {
     0% {
-        @include transform(rotate(90deg) rotate3d(1, 1, 0, 90deg));
+        @include transform(rotate(90deg) rotate3d(1, 1, 0, -90deg));
         opacity: 0;
     }
     1% {
@@ -398,13 +399,17 @@ body {
 @include keyframes(flip) {
     0% {
         // @include transform(rotate(90deg) rotateX(0deg) rotateY(0deg) rotateZ(0deg));
-        @include transform(rotate(90deg) rotate3d(1, 1, 0, 180deg));
+        @include transform(rotate(90deg) rotate3d(1, 1, 0, -180deg));
         // @include transform(rotateY(180deg));
         // opacity: 0.1; // TODO remove this
     }
+    // 99% {
+    //     opacity: 1;
+    // }
     100% {
         // @include transform(rotate(90deg) rotateX(180deg) rotateY(180deg) rotateZ(0deg));
         @include transform(rotate(90deg) rotate3d(1, 1, 0, 0deg));
+        // opacity: 0;
         // @include transform(rotateY(0deg));
         // @include transform(rotate(90deg) rotate3d(1, 1, 0, 90deg));
         // opacity: 0.5; // TODO remove this
@@ -414,7 +419,7 @@ body {
 // the flips that go half way (pos 1, 3 & 9)
 @include keyframes(flip-half) {
     0% {
-        @include transform(rotate(90deg) rotate3d(1, 1, 0, 90deg));
+        @include transform(rotate(90deg) rotate3d(1, 1, 0, -90deg));
         opacity: 0;
     }
     1% {
@@ -426,7 +431,6 @@ body {
 }
 
 // this is to match the positions of the els 
-// TODO - make this comment better!
 @include keyframes(rotate-only) {
     0% {
         @include transform(rotate(90deg) rotate3d(1, 1, 0, 180deg));
@@ -506,33 +510,47 @@ $z-index-list: 11 10 9 8 7 6 5 4 3 2 1;
             // left: #{$i}px;
             // opacity: 0.5;
         }
-        // 50% {
-        //     z-index: nth($z-index-list, $i);
+        50% {
+            // z-index: nth($z-index-list, $i);
         //     // z-index: $i;
-        //     // left: #{$i * 10}px;
+            // left: #{$i * 10}px;
         //     // opacity: 0.5;
-        // }
-        // 51% {
-        //     z-index: $i;
+        }
+        51% {
+            // z-index: $i;
         //     // z-index: $i;
-        //     // left: #{$i * 10}px;
+            // left: #{$i * 10}px;
         //     // opacity: 0.5;
-        // }
-        // 100% {
-        //     z-index: $i;
-        //     // left: #{$i * 20}px;
+        }
+        100% {
+            z-index: -$i;
+            // z-index: $i;
+            // left: #{$i * 20}px;
         //     // opacity: 0.5;
-        // }
+        }
     }
 }
 
 // .flip-container--3-1 .flip-card--1,
-.flip-container--3-1 .flip-card--2,
-.flip-container--3-1 .flip-card--3,
-.flip-container--3-1 .flip-card--4,
-.flip-container--3-1 .flip-card--5,
-.flip-container--3-1 .flip-card--6,
+// .flip-container--3-1 .flip-card--2,
+// .flip-container--3-1 .flip-card--3,
+// .flip-container--3-1 .flip-card--4,
+// .flip-container--3-1 .flip-card--5,
+// .flip-container--3-1 .flip-card--6,
 .flip-container--2-1,
 {
     // display: none;
+}
+
+.flip-container {
+    display: block;
+}
+// .flip-container--2-2,
+.flip-container--1-3,
+{
+    display: block;
+
+    .flip-card--second {
+        // z-index: -1 !important;
+    }
 }
